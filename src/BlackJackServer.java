@@ -33,7 +33,20 @@ class BlackJackServer {
     public int getCard() {
         Random random = new Random();
         int newcard = random.nextInt(13)+1;
-        System.out.println("new card is "+newcard); // 해당 Client 가 getCard() method 로 카드를 뽑으면 Server Console 에 출력한다.
+
+        if (newcard == 11) {
+            System.out.println("new card is Jack"); // 해당 Client 가 getCard() method 로 카드를 뽑으면 Server Console 에 출력한다.
+        }
+        else if (newcard == 12) {
+            System.out.println("new card is Queen"); // 해당 Client 가 getCard() method 로 카드를 뽑으면 Server Console 에 출력한다.
+        }
+        else if (newcard == 13) {
+            System.out.println("new card is King"); // 해당 Client 가 getCard() method 로 카드를 뽑으면 Server Console 에 출력한다.
+        }
+        else {
+            System.out.println("new card is "+newcard); // 해당 Client 가 getCard() method 로 카드를 뽑으면 Server Console 에 출력한다.
+        }
+
         return newcard;
     }
 
