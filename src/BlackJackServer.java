@@ -22,8 +22,9 @@ class BlackJackServer {
     public void createServer() throws Exception {
         System.out.println("Server start running ..");
         ServerSocket server = new ServerSocket(inPort);
+        System.out.println("Wating clients to join...");
         while (true) {
-            Socket socket = server.accept();
+            Socket socket = server.accept();    // main이 돌면 여기서 클라이언트의 접속을 기다린다.
             Client c = new Client(socket);
             clients.add(c);
         }
@@ -32,7 +33,7 @@ class BlackJackServer {
     public int getCard() {
         Random random = new Random();
         int newcard = random.nextInt(13)+1;
-        System.out.println("new card is "+newcard);
+        System.out.println("new card is "+newcard); // 해당 Client 가 getCard() method 로 카드를 뽑으면 Server Console 에 출력한다.
         return newcard;
     }
 
@@ -44,16 +45,16 @@ class BlackJackServer {
         int card;
 
         public Client(Socket socket) throws Exception {
-            System.out.println("\n\n"+socket.getInetAddress()+ "  join ");
+            System.out.println("\n\n"+socket.getInetAddress()+ "  join ");  // Client 가 접속하면 해당 c의 주소와 Join을 server console에 출력한다.
             this.socket = socket;
             card = 0;
             out = new PrintWriter(socket.getOutputStream(), true);
             in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-            start();
+            start();    // Client run() 메서드를 병렬적으로 실행한다.
 
             int newCard = getCard();
             card += newCard;
-            send(""+newCard);
+            send(""+newCard);   // getCard() 로 뽑은 카드를 해당 C에게 뽑은 카드를 String 타입으로 보내준다.
             System.out.println(socket.getInetAddress()+ "  has "+ card);
 
         }
@@ -70,7 +71,7 @@ class BlackJackServer {
 
             try {
                 while(true) {
-                    msg = in.readLine();
+                    msg = in.readLine();    // Client 가 접속하면 해당 c 객체는 여기서 입력을 기다린다.
 
                     if (msg.equalsIgnoreCase("1")) {
                         System.out.println(socket.getInetAddress()+" hit");
